@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const decodeToken_1 = require("../../auth/decodeToken");
+const router = (0, express_1.Router)();
+const task_controller_1 = require("../controller/task.controller");
+router.route("/").get(decodeToken_1.decodeToken, task_controller_1.getAllTasks);
+router.get("/user/:id", decodeToken_1.decodeToken, task_controller_1.getTasksUser);
+router.get("/:id", decodeToken_1.decodeToken, task_controller_1.getOneTask);
+router.post("/", decodeToken_1.decodeToken, task_controller_1.createTask);
+router.put("/:id", decodeToken_1.decodeToken, task_controller_1.editTask);
+router.delete("/:id", decodeToken_1.decodeToken, task_controller_1.deleteTask);
+exports.default = router;
