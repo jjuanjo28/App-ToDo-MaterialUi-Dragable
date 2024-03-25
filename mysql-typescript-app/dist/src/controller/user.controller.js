@@ -35,7 +35,6 @@ const getLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 exp: Date.now() + 600 * 1000
             }, `${SECRET}`);
             const decoded = jsonwebtoken_1.default.verify(token, `${SECRET}`);
-            console.log("soy decoded:", decoded);
             res.status(200).json({
                 idUser: decoded.user.idPersona,
                 status: 200,
@@ -118,6 +117,7 @@ exports.createUser = createUser;
 // actualizar un user
 const editUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log("este es mi id:", req.params.id);
         yield user_model_1.default.update(req.body, {
             where: { idPersona: req.params.id },
         });
@@ -126,6 +126,7 @@ const editUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
+        console.log("soy el req:", req);
         res.json({ message: error });
     }
 });

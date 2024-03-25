@@ -13,6 +13,7 @@ const TaskModel = database_1.default.define("task", {
     task: { type: sequelize_1.DataTypes.STRING },
     completed: { type: sequelize_1.DataTypes.BOOLEAN },
     created_at: { type: sequelize_1.DataTypes.TIME },
+    limit_date: { type: sequelize_1.DataTypes.DATE },
     personaId: { type: sequelize_1.DataTypes.NUMBER }
 });
 exports.default = TaskModel;

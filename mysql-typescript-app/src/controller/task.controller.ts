@@ -12,6 +12,7 @@ const verifyToken = function(req: Request, res: Response) {
   }
 
 }
+
 export async function getAllTasks(req:Request, res: Response){
    
     try {
@@ -39,7 +40,8 @@ export async function getAllTasks(req:Request, res: Response){
        try {
         const token:any = req.headers.authorization?.split(" ")[1]
         const decoded:any =  jwt.verify(token,"secretKey")
-       
+        console.log("soy el token:",token);
+        
         if(Date.now() > decoded.exp){
         return res.status(401).send({error:"token expired"})
         }
@@ -80,7 +82,8 @@ export async function getAllTasks(req:Request, res: Response){
         try {
           const token:any = req.headers.authorization?.split(" ")[1]
           const decoded:any =  jwt.verify(token,"secretKey")
-         
+        
+          
           if(Date.now() > decoded.exp){
           return res.status(401).send({error:"token expired"})
           }
@@ -89,6 +92,8 @@ export async function getAllTasks(req:Request, res: Response){
               personaID: req.params.id,
             },
           });
+        
+           
            res.json(prestamo);
              } catch (error) {
           res.json({ message: error});
@@ -105,6 +110,9 @@ export async function getAllTasks(req:Request, res: Response){
           if(Date.now() > decoded.exp){
           return res.status(401).send({error:"token expired"})
           }
+          console.log("soy el req.body:", req.body)
+          console.log("soy el req.params:",req.params);
+          
           await TaskModel.update(req.body, {
             where: { id: req.params.id }, 
           });
@@ -127,6 +135,7 @@ export async function getAllTasks(req:Request, res: Response){
           return res.status(401).send({error:"token expired"})
           }
           verifyToken(req,res)
+          console.log("este es mi id:", req)
           await TaskModel.destroy({
             where: { id: req.params.id },
           });

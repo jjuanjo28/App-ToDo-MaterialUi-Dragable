@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken"
 
 export const getLogin = async (req: Request, res: Response) => {
   const SECRET = process.env.SECRET;
-
+    
   try {
     const user = req.body;
     const { name, password } = user;
@@ -31,10 +31,7 @@ export const getLogin = async (req: Request, res: Response) => {
       );
 
       const decoded: any = jwt.verify(token, `${SECRET}`);
-      console.log("soy decoded:", decoded);
-
-
-      res.status(200).json({
+       res.status(200).json({
         idUser: decoded.user.idPersona,
         status: 200,
         success: true,
@@ -120,15 +117,20 @@ export const createUser = async (req: Request, res: Response) => {
 // actualizar un user
 
 export const editUser = async (req: Request, res: Response) => {
+    
   try {
-
+       console.log("este es mi id:", req.params.id);
+       
     await PersonModel.update(req.body, {
+      
       where: { idPersona: req.params.id },
     });
     res.json({
       message: "Usuario Editado Correctamente",
     });
   } catch (error) {
+    console.log("soy el req:", req);
+    
     res.json({ message: error });
   }
 };

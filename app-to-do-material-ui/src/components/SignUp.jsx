@@ -13,6 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import mainStore from "../stores/index.js";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import WebcamComponent from "./Webcam.jsx";
 
 const defaultTheme = createTheme();
 
@@ -88,6 +89,9 @@ export default function SignUp({ setNewUser }) {
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
+          <Box>
+            <WebcamComponent/>
+          </Box>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>

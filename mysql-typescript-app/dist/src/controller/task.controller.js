@@ -48,6 +48,7 @@ const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(" ")[1];
         const decoded = jsonwebtoken_1.default.verify(token, "secretKey");
+        console.log("soy el token:", token);
         if (Date.now() > decoded.exp) {
             return res.status(401).send({ error: "token expired" });
         }
@@ -111,6 +112,8 @@ const editTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (Date.now() > decoded.exp) {
             return res.status(401).send({ error: "token expired" });
         }
+        console.log("soy el req.body:", req.body);
+        console.log("soy el req.params:", req.params);
         yield task_model_1.default.update(req.body, {
             where: { id: req.params.id },
         });
@@ -133,6 +136,7 @@ const deleteTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             return res.status(401).send({ error: "token expired" });
         }
         verifyToken(req, res);
+        console.log("este es mi id:", req);
         yield task_model_1.default.destroy({
             where: { id: req.params.id },
         });

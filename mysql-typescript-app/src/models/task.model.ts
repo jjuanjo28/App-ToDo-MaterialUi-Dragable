@@ -9,6 +9,7 @@ const TaskModel = connect.define("task",{
     task:{type: DataTypes.STRING},
     completed:{type: DataTypes.BOOLEAN},
     created_at:{type:DataTypes.TIME},
+    limit_date:{type:DataTypes.DATE},
     personaId:{type:DataTypes.NUMBER}
 })
 

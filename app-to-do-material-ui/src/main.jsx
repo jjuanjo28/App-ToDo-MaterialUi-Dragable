@@ -1,11 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
+import PersistentDrawerLeft from "./components/PersistenDrawerLeft";
 import UserScreen from "./screens/UserScreen";
-import TasksScreen from "./screens/TasksScreen";
-import Cookies from "universal-cookie";
 import GeneralScreen from "./screens/GeneralScreen";
 import NavBar from "./components/NavBar";
 import Stack from "@mui/material/Stack";
@@ -16,6 +13,13 @@ import "@fontsource/roboto/700.css";
 
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import { lightBlue, purple } from "@mui/material/colors";
+import UserCardScreen from "./screens/UserCardScreen";
+import EditUserScreen from "./screens/EditUserScreen";
+import EditPasswordScreen from "./screens/EditPassword";
+import TasksScreenTable from "./screens/TasksScreenTable";
+import TasksScreenDragable from "./screens/TasksScreenDragable";
+import CreateTaskScreen from "./screens/CreateTaskScreen";
+
 
 const theme = createTheme({
   palette: {
@@ -28,20 +32,28 @@ const theme = createTheme({
   },
 });
 
+
+
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  
     <CssBaseline>
       <ThemeProvider theme={theme}>
         <Router>
           <Stack spacing={6}>
-            <NavBar />
+            <PersistentDrawerLeft/>
           </Stack>
           <Routes>
             <Route exact path="/" element={<GeneralScreen />} />
             <Route path="/user" element={<UserScreen />} />
+            <Route path="/userShowCard" element={<UserCardScreen/>}/>
+            <Route path="/editUserCard" element={<EditUserScreen/>}/>
+            <Route path="/editUserPass" element={<EditPasswordScreen/>}/>
+            <Route path="/taskScreenTable" element={<TasksScreenTable/>} />
+            <Route path="/taskScreenDragable" element={<TasksScreenDragable/>}/>
+            <Route path="/createTaskScreen" element={<CreateTaskScreen/>}/>
           </Routes>
         </Router>
       </ThemeProvider>
     </CssBaseline>
-  </React.StrictMode>
+  
 );

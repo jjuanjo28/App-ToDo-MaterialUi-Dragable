@@ -12,6 +12,7 @@ const PersonModel = database_1.default.define("people", {
     name: { type: sequelize_1.DataTypes.STRING },
     email: { type: sequelize_1.DataTypes.STRING },
     password: { type: sequelize_1.DataTypes.STRING },
+    user_photo: { type: sequelize_1.DataTypes.BLOB },
     type_user: { type: sequelize_1.DataTypes.STRING }
 });
 exports.default = PersonModel;
