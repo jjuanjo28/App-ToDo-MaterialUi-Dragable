@@ -10,6 +10,7 @@ const PersonModel = connect.define("people",{
     password:{type: DataTypes.STRING},
     user_photo:{type: DataTypes.BLOB},
     type_user:{type: DataTypes.STRING}
+
    })
 
  export default PersonModel

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const deleteTaskXX = (id, cookies) =>{
+export const deleteTaskXX = (id) =>{
     let config = {
         method: "delete",
         maxBodyLength: Infinity,

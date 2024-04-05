@@ -4,6 +4,8 @@ import {
   ListItemIcon,
   TextField,
   FormLabel,
+  Box,
+  Modal
 } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +16,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Person } from "@mui/icons-material";
 import mainStore from "../stores/index.js";
+import WebcamComponent from "../components/Webcam.jsx";
 
 const UserType = (props) => {
 
@@ -35,12 +38,18 @@ const UserType = (props) => {
 export default function EditUserScreen() {
   const { editUser } = mainStore();
   const [user, setUser] = useState(useStore((state) => state.dataUser));
+  const [photo, setPhoto] = useState(null);
+  const [openModal, setOpenModal] = useState(false)
+
+  const handleOpen = () => setOpenModal(true)
+  const handleClose = () => setOpenModal(false)
 
   function changeDataUser(event) {
     event.preventDefault();
     const newDataUser = {
       name: event.target.new_name.value,
       email: event.target.new_email.value,
+      
     };
     if (newDataUser.name == "") {
       newDataUser.name = user.name;
@@ -70,9 +79,42 @@ export default function EditUserScreen() {
           textAlign: "center",
         }}
       >
-        <ListItemIcon>
-          <Person color="info" sx={{ fontSize: "120px" }} />
-        </ListItemIcon>
+      {user.user_photo ? (
+        <Box style={{display:"flex", flexDirection:"column",}}>
+
+       
+        <img
+          src={`http://localhost:3000/uploads/${user.user_photo}.jpg`}
+          style={{margin:"20px", height:"150px", borderRadius:"80px"}}
+          /> <Button
+              size="small"
+              color="primary"
+              variant="contained"
+              onClick={handleOpen}
+          >Take a new photo</Button> 
+         
+           </Box>
+          ) : (  <ListItemIcon>
+               <Person color="info" sx={{fontSize:"150px"}}/>
+       </ListItemIcon>) }
+       <Modal
+         open={openModal}
+         onClose={handleClose}
+         >
+         <Box sx={{ position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,}}>
+         <WebcamComponent photo={photo} setPhoto={setPhoto} handleClose={handleClose}/>
+          
+         </Box>
+       </Modal>
+
         <CardContent>
           <form onSubmit={changeDataUser}>
             <FormLabel>

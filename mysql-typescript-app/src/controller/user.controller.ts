@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import PersonModel from "../models/user.model";
 import jwt from "jsonwebtoken"
-
+import { upload } from "../app";
 
 export const getLogin = async (req: Request, res: Response) => {
   const SECRET = process.env.SECRET;
@@ -88,7 +88,7 @@ export const getUser = async (req: Request, res: Response) => {
 
 export const createUser = async (req: Request, res: Response) => {
 
-  try {
+   try {
     const email = await PersonModel.findAll({
       where: {
         email: req.body.email,
@@ -103,8 +103,10 @@ export const createUser = async (req: Request, res: Response) => {
     );
     if (email.length != 0) return res.status(403).json({ message: "el email ya esta uso" })
     if (user.length != 0) return res.status(403).json({ message: "el nombre ya esta uso" })
+        
+    
     await PersonModel.create(req.body);
-
+     
 
     res.json({
       message: "Usuario Creado Correctamente"

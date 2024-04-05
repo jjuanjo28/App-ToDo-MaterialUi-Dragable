@@ -19,6 +19,7 @@ import EditPasswordScreen from "./screens/EditPassword";
 import TasksScreenTable from "./screens/TasksScreenTable";
 import TasksScreenDragable from "./screens/TasksScreenDragable";
 import CreateTaskScreen from "./screens/CreateTaskScreen";
+import FaceEnjoy from "./screens/FaceEnjoy";
 
 
 const theme = createTheme({
@@ -51,6 +52,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/taskScreenTable" element={<TasksScreenTable/>} />
             <Route path="/taskScreenDragable" element={<TasksScreenDragable/>}/>
             <Route path="/createTaskScreen" element={<CreateTaskScreen/>}/>
+            <Route path="/faceEnjoy" element={<FaceEnjoy/>}/>
           </Routes>
         </Router>
       </ThemeProvider>

@@ -115,6 +115,8 @@ const useStore = create(
 
     setUserZustand: async (dataUser) => {
       const newCaptureData = await captureTocken(dataUser);
+      console.log("soy newCaptureData.data:",newCaptureData.data);
+      console.log("soy newCaptureData token", newCaptureData.data.token);
       let newConfig = {
         method: "get",
         maxBodyLength: Infinity,
@@ -129,7 +131,7 @@ const useStore = create(
           console.log("soy dataUser:",response);
           set({ dataUser: response.data });
           set({ isUserConnected: true });
-
+            
           let configForTasks = {
             method: "get",
             maxBodyLength: Infinity,
@@ -154,6 +156,7 @@ const useStore = create(
             });
         })
         .catch((error) => {
+          console.log("error este:",error);
           set({ isUserConnected: false });
           alert("Error: Ingrese su usuario nuevamente");
         });
@@ -162,6 +165,7 @@ const useStore = create(
     deleteTask: async (taskId) => {
       const { tasksUser } = get();
       const newDataUser = await captureTocken(get().dataUser);
+      console.log("soy newDataUser:", newDataUser)
 
       let newConfig = {
         method: "delete",

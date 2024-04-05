@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useRef } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,36 +12,61 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import mainStore from "../stores/index.js";
 import axios from "axios";
+import { Modal } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import WebcamComponent from "./Webcam.jsx";
+import * as FormData from "form-data";
 
 const defaultTheme = createTheme();
 
 export default function SignUp({ setNewUser }) {
-  const {setUserZustand} = mainStore();
+  const { setUserZustand } = mainStore();
   const navigate = useNavigate();
 
   const captureUser = async (dataLogin) => {
-
     setUserZustand(dataLogin);
     setNewUser(false);
     navigate("/");
   };
 
+  const videoConstraints = {
+    width: 400,
+    height: 400,
+    facingMode: "user",
+  };
+  const [photo, setPhoto] = useState(null);
+  const [openModal, setOpenModal] = useState(false)
+
+  const handleOpen = () => setOpenModal(true)
+  const handleClose = () => setOpenModal(false)
+  
   function createUser(user) {
-    let data = JSON.stringify({
-      name: user.name,
-      email: user.email,
-      password: user.password,
-      type_user: "user",
-    });
+    let data = new FormData();
+
+    data.append("name", user.name);
+    data.append("email", user.email);
+    data.append("password", user.password);
+    data.append("type_user", "user");
+    if (photo) {
+      const binaryData = atob(photo.split(",")[1]);
+      const arrayBuffer = new ArrayBuffer(binaryData.length);
+      const uint8Array = new Uint8Array(arrayBuffer);
+      for (let i = 0; i < binaryData.length; i++) {
+        uint8Array[i] = binaryData.charCodeAt(i);
+      }
+      const newBlob = new Blob([uint8Array], { type: "image/jpeg" });
+
+      const file = new File([newBlob], `photo_${user.name}_${user.email}`);
+      data.append("photo", file);
+      data.append("user_photo", file.name);
+    }
 
     let config = {
       method: "post",
       maxBodyLength: Infinity,
       url: "http://localhost:3000/users",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
       data: data,
     };
@@ -71,6 +96,7 @@ export default function SignUp({ setNewUser }) {
       name: data.get("firstName"),
       email: data.get("email"),
       password: data.get("password"),
+      user_photo: photo,
     });
   };
 
@@ -89,9 +115,24 @@ export default function SignUp({ setNewUser }) {
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Box>
-            <WebcamComponent/>
-          </Box>
+          <Modal
+         open={openModal}
+         onClose={handleClose}
+         >
+        
+         <Box sx={{ position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,}}>
+         <WebcamComponent photo={photo} setPhoto={setPhoto} handleClouse={handleClose}/>
+          
+         </Box>
+       </Modal>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
@@ -146,14 +187,21 @@ export default function SignUp({ setNewUser }) {
               </Grid>
               <Grid item xs={12}></Grid>
             </Grid>
-            <Button
+            
+            {photo?  <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
               Sign Up
-            </Button>
+            </Button> : <Button 
+             fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              onClick={handleOpen}
+            >First Take your Photo</Button> }
+           
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link onClick={() => setNewUser(false)} variant="body2">

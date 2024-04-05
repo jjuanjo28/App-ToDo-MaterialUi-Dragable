@@ -297,6 +297,18 @@ export default function PersistentDrawerLeft() {
               Delete All Tasks
             </ListItemButton>
           </ListItem>
+          <ListItem>
+            <ListItemButton
+              onClick={() =>
+                navigate("/faceEnjoy")
+              }
+            >
+              <ListItemIcon>
+                <ListAltSharp fontSize="large" />
+              </ListItemIcon>
+              Enjoy FaceApi
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
 

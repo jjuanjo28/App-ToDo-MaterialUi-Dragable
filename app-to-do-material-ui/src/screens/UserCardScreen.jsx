@@ -20,14 +20,19 @@ const UserType = (props) =>{
 export default function UserCardScreen() {
 
   const [user, setUser] = useState(useStore((state)=>state.dataUser))
-  
+  console.log("soy el user:", user);
+  console.log("soy el user_photo:",user.user_photo);
   const navigate = useNavigate();
   return (
     <Container maxWidth="sm" sx={{display:"flex", alignItems:"center", flexDirection:"column"}}>
        <Card sx={{ maxWidth: 345, margin:"30px", border:"solid 1px grey", display:"flex", flexDirection:"column", alignItems:"center", textAlign:"center" }}>
-       <ListItemIcon>
+       {user.user_photo ? <img
+          src={`http://localhost:3000/uploads/${user.user_photo}.jpg`}
+          style={{margin:"20px", height:"150px", borderRadius:"80px"}}
+          />  : (  <ListItemIcon>
                <Person color="info" sx={{fontSize:"150px"}}/>
-              </ListItemIcon>
+       </ListItemIcon>) }
+           
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           Nombre de usuario: {user.name}
