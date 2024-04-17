@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { getLogin ,getAllUsers, getUser, createUser, editUser, deleteUser } from "../controller/user.controller";
 import { decodeToken } from "../../auth/decodeToken"
-import { upload } from "../App";
+import { upload } from "../app";
 
 const router = Router()
 

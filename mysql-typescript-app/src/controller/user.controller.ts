@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import PersonModel from "../models/user.model";
 import jwt from "jsonwebtoken"
-import { upload } from "../app";
+
 
 export const getLogin = async (req: Request, res: Response) => {
   const SECRET = process.env.SECRET;
